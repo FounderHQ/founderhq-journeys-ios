@@ -1,0 +1,21 @@
+{
+  "repository": "FounderHQ/founderhq-journeys-ios",
+  "version": "0.1.0",
+  "sourceCommit": "dd1f15c51b546ca0360ab8883a61a21bff100e55",
+  "files": {
+    ".github/workflows/release.yml": "af3b237768b25d18238a398f59635dfc4a6554fb2f5b515e044201393138f3e2",
+    ".gitignore": "14381eea8ee07ee2479db564fb75f9814f9a510041eb1eac35da5bd01adfc3c8",
+    "FounderHQJourneys.podspec": "bd11c4a5ed9ce4808a7c133a82c4ad25c1c47538463d8200626cb007a1ec4422",
+    "LICENSE": "11266b70b5ea51167849f8ff2fc81558da90acb971a670e5ee7787d8151c9ff0",
+    "Package.swift": "0a495f7454109c046420c62ad2dbc02835b8b5ca4a0d07ab7dd9036f70400a77",
+    "README.md": "3f331f3aeadd17138ba4defd0aed5dbb9dfb6c76393320c02c12577950e6838b",
+    "Sources/FounderHQJourneys/JSONValue.swift": "1d2b13e56e8d3de2ddf8a0f21ddc0c049f60d7031a6a29bdc4ea0b32daa5569e",
+    "Sources/FounderHQJourneys/JourneyAPIClient.swift": "56f3340e6af9e10b6e4924a9a0fee82010f5f9f0d7fe54581bc0eb64f98bc859",
+    "Sources/FounderHQJourneys/JourneyBridge.swift": "0ff6d991d72ca0b63fb96e59553956b545dbb292fbaaf887f3564ad24a967853",
+    "Sources/FounderHQJourneys/JourneyConfiguration.swift": "8c1c9c9689495b61426c212e6bd805029a1e16573d241400d7035fd2df0feca4",
+    "Sources/FounderHQJourneys/JourneyController.swift": "012d613f36478461a3acdcc3fe702c03d79a0fb02503c5cce5972654fed60281",
+    "Sources/FounderHQJourneys/JourneyModels.swift": "41161a5c8f71ab05fd713e482cac1d957c5b0f54b1cd314efa426847ce67dad2",
+    "Sources/FounderHQJourneys/JourneyView.swift": "a1db9e71e31fdf77fc32f043f8b5a4fef1aa79ed1453d0f46b69ea389263c916",
+    "Tests/FounderHQJourneysTests/FounderHQJourneysTests.swift": "5dc7447e5c04152064fb085bb8dc419c48cbb327be4648162e071bb24522702f"
+  }
+}
