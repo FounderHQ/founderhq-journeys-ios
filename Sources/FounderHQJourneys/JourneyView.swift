@@ -49,6 +49,7 @@ public final class JourneyHost: NSObject, ObservableObject {
     public let controller: JourneyController
     public let webView: WKWebView
     private let messageHandler = JourneyWeakMessageHandler()
+    private var preparationContainer: UIView?
 
     private let client: JourneyAPIClient
     private let onEvent: (JourneyEvent) -> Void
@@ -120,6 +121,9 @@ public final class JourneyHost: NSObject, ObservableObject {
         hiddenPreparationTask?.cancel()
         retryUnlockTask?.cancel()
         lifecycleObservers.forEach { NotificationCenter.default.removeObserver($0) }
+        if let preparationContainer {
+            Task { @MainActor in preparationContainer.removeFromSuperview() }
+        }
     }
 
     public func prepare() async throws {
@@ -179,6 +183,7 @@ public final class JourneyHost: NSObject, ObservableObject {
                 if !canRevealCached { try await self.prepare() }
                 try await self.revealPreparedRenderer()
             }
+            removePreparationViewport()
             webView.isHidden = false
             isPresented = true
             lastError = nil
@@ -276,6 +281,10 @@ public final class JourneyHost: NSObject, ObservableObject {
             readiness = policy.authorizationBlocked ? .failed : .idle
             return
         }
+        guard rendererReady else {
+            readiness = .idle
+            return
+        }
         if rendererCapabilities.contains("prepare") && rendererCapabilities.contains("visibility"),
            policy.preparation?.supportsPreparedPresentation == true,
            policy.preparation?.config != nil {
@@ -283,13 +292,16 @@ public final class JourneyHost: NSObject, ObservableObject {
             policy.beginSession()
             readiness = .preparing
             let taskID = UUID()
+            let generation = configurationGeneration
             let task = Task { @MainActor [weak self] in
                 guard let self else { return }
                 do {
+                    try await self.ensurePreparationViewport()
                     try await self.initializeRenderer(presentationMode: "prepared")
                     self.readiness = .ready
                     self.scheduleRefreshIfNeeded()
                 } catch {
+                    guard self.configurationGeneration == generation, !Task.isCancelled else { throw error }
                     self.policy.recordFailure(error, at: Date())
                     self.readiness = .failed
                     self.applyRetryBackoff(error)
@@ -299,7 +311,12 @@ public final class JourneyHost: NSObject, ObservableObject {
             hiddenPreparationTask = task
             hiddenPreparationTaskID = taskID
             Task { @MainActor [weak self] in
-                do { try await task.value } catch { self?.onError(error) }
+                do {
+                    try await task.value
+                } catch {
+                    guard self?.hiddenPreparationTaskID == taskID else { return }
+                    self?.onError(error)
+                }
                 guard self?.hiddenPreparationTaskID == taskID else { return }
                 self?.hiddenPreparationTask = nil
                 self?.hiddenPreparationTaskID = nil
@@ -345,6 +362,7 @@ public final class JourneyHost: NSObject, ObservableObject {
         webView.stopLoading()
         webView.navigationDelegate = nil
         webView.configuration.userContentController.removeScriptMessageHandler(forName: JourneyBridge.handlerName)
+        removePreparationViewport()
         resumeShellWaiters(throwing: JourneyError.unavailable("Journey host was disposed"))
         resumeRenderWaiters(throwing: JourneyError.unavailable("Journey host was disposed"))
     }
@@ -390,12 +408,14 @@ public final class JourneyHost: NSObject, ObservableObject {
     }
 
     private func ensureRendererLoaded() async throws {
+        if !isPresented { try await ensurePreparationViewport() }
         if rendererReady { return }
         webView.load(URLRequest(url: try configuration.resolvedRendererURL()))
         try await withCheckedThrowingContinuation { shellWaiters.append($0) }
     }
 
     private func initializeRenderer(presentationMode: String) async throws {
+        if presentationMode == "prepared" { try await ensurePreparationViewport() }
         guard rendererReady, let config = policy.preparation?.config else {
             throw JourneyError.invalidResponse("Journey preparation is incomplete")
         }
@@ -449,6 +469,62 @@ public final class JourneyHost: NSObject, ObservableObject {
         }
     }
 
+    private func ensurePreparationViewport() async throws {
+        guard !isPresented else { return }
+        if webView.window != nil && webView.bounds.width > 0 && webView.bounds.height > 0 {
+            webView.isHidden = false
+            return
+        }
+        if preparationContainer != nil { removePreparationViewport() }
+        for _ in 0..<20 {
+            if attachPreparationViewport() { return }
+            try Task.checkCancellation()
+            try await Task.sleep(nanoseconds: 50_000_000)
+        }
+        throw JourneyError.unavailable("Journey preparation requires an active app window")
+    }
+
+    private func attachPreparationViewport() -> Bool {
+        let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+        let windows = scenes
+            .filter { $0.activationState == .foregroundActive || $0.activationState == .foregroundInactive }
+            .flatMap(\.windows)
+        guard let window = windows.first(where: \.isKeyWindow) ?? windows.first(where: { !$0.isHidden }),
+              window.bounds.width > 0, window.bounds.height > 0 else { return false }
+
+        let container = UIView(frame: window.bounds)
+        container.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        container.isUserInteractionEnabled = false
+        container.accessibilityElementsHidden = true
+        // A zero-alpha or hidden view can pause WebKit layout and animation frames.
+        // Keep a real viewport behind app content with a near-transparent container.
+        container.alpha = 0.01
+        window.insertSubview(container, at: 0)
+
+        webView.removeFromSuperview()
+        webView.frame = container.bounds
+        webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        webView.isUserInteractionEnabled = false
+        webView.accessibilityElementsHidden = true
+        webView.isHidden = false
+        container.addSubview(webView)
+        preparationContainer = container
+        return true
+    }
+
+    private func removePreparationViewport() {
+        guard let preparationContainer else {
+            webView.isUserInteractionEnabled = true
+            webView.accessibilityElementsHidden = false
+            return
+        }
+        if webView.superview === preparationContainer { webView.removeFromSuperview() }
+        preparationContainer.removeFromSuperview()
+        self.preparationContainer = nil
+        webView.isUserInteractionEnabled = true
+        webView.accessibilityElementsHidden = false
+    }
+
     private func observeLifecycle() {
         let center = NotificationCenter.default
         lifecycleObservers.append(center.addObserver(
@@ -485,6 +561,7 @@ public final class JourneyHost: NSObject, ObservableObject {
         readiness = policy.authorizationBlocked ? .failed : .idle
         webView.stopLoading()
         webView.loadHTMLString("", baseURL: nil)
+        removePreparationViewport()
         resumeShellWaiters(throwing: CancellationError())
         resumeRenderWaiters(throwing: CancellationError())
     }
@@ -633,6 +710,7 @@ public final class JourneyHost: NSObject, ObservableObject {
         lastError = JourneyError.authorizationDenied
         isPresented = false
         webView.isHidden = true
+        removePreparationViewport()
         resumeShellWaiters(throwing: JourneyError.authorizationDenied)
         resumeRenderWaiters(throwing: JourneyError.authorizationDenied)
         onError(JourneyError.authorizationDenied)

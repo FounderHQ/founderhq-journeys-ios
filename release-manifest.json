@@ -1,7 +1,7 @@
 {
   "repository": "FounderHQ/founderhq-journeys-ios",
   "version": "0.7.0",
-  "sourceCommit": "f61b0dca7427d40f883f27da7b5c3a0c2cc36b16",
+  "sourceCommit": "58cd31949514f992988d7760b6b0053b3b42d379",
   "files": {
     ".github/workflows/release.yml": "af3b237768b25d18238a398f59635dfc4a6554fb2f5b515e044201393138f3e2",
     ".gitignore": "14381eea8ee07ee2479db564fb75f9814f9a510041eb1eac35da5bd01adfc3c8",
@@ -15,7 +15,7 @@
     "Sources/FounderHQJourneys/JourneyConfiguration.swift": "0d303ed190447137ea0ddd415365002677de50b377d83a36860093366d101a69",
     "Sources/FounderHQJourneys/JourneyController.swift": "012d613f36478461a3acdcc3fe702c03d79a0fb02503c5cce5972654fed60281",
     "Sources/FounderHQJourneys/JourneyModels.swift": "4302fa644e81703896819b290e72db2b2214d1273834012ca21dbd97c35ef2fd",
-    "Sources/FounderHQJourneys/JourneyView.swift": "6ce9b9aeda315607072836d058c19299cd549ad83c3a77e2e905b3d29a542e06",
+    "Sources/FounderHQJourneys/JourneyView.swift": "11981f3cb4e0ac84a892a1d0318a0697e9336a413f75c2e416a4f938528becb5",
     "Tests/FounderHQJourneysTests/FounderHQJourneysTests.swift": "596738857ad15e5734b859b8b54602aa7843e0fb30869b906102f877b9f11d1c"
   }
 }
