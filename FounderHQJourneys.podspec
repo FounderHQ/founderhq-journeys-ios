@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'FounderHQJourneys'
-  s.version = '0.1.0'
+  s.version = '0.1.1'
   s.summary = 'FounderHQ Journeys SDK for iOS'
   s.homepage = 'https://github.com/FounderHQ/founderhq-journeys-ios'
   s.license = { :type => 'MIT', :file => 'LICENSE' }

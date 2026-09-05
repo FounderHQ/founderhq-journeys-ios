@@ -62,6 +62,9 @@ public struct JourneyView: View {
                 onDiscountCodeApply: onDiscountCodeApply,
                 onHaptic: onHaptic
             )
+            // Draw the page background behind the system bars. The renderer's
+            // viewport-fit=cover and CSS safe-area padding protect its controls.
+            .ignoresSafeArea(.container)
             .id(reloadID)
             if case .loading = phase {
                 if let loadingView {
@@ -117,6 +120,8 @@ private struct NativeJourneyWebView: UIViewRepresentable {
         webView.isOpaque = false
         webView.backgroundColor = UIColor(red: 20 / 255, green: 18 / 255, blue: 16 / 255, alpha: 1)
         webView.scrollView.backgroundColor = webView.backgroundColor
+        // The web shell owns content insets; UIKit must not add a second set.
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
         webView.navigationDelegate = context.coordinator
         context.coordinator.attach(webView)
         controller.bind(context.coordinator)
