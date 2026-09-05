@@ -4,7 +4,7 @@ enum JourneyBridge {
     static let version = 1
     static let handlerName = "founderhqJourneysNative"
     static let receiverName = "__founderhqJourneysReceive"
-    static let sdkVersion = "0.2.0"
+    static let sdkVersion = "0.7.0"
 
     struct Envelope: Codable, Equatable {
         var version: Int

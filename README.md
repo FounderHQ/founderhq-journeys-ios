@@ -6,18 +6,18 @@ In Xcode, choose **File → Add Package Dependencies** and enter:
 
 `https://github.com/FounderHQ/founderhq-journeys-ios`
 
-Select version **0.2.0** or later. Swift Package Manager is the recommended installation method.
+Select version **0.7.0** or later. Swift Package Manager is the recommended installation method.
 
 For CocoaPods:
 
 ```ruby
-pod 'FounderHQJourneys', '~> 0.2.0'
+pod 'FounderHQJourneys', '~> 0.7.0'
 ```
 
 For installation directly from the release tag:
 
 ```ruby
-pod 'FounderHQJourneys', :git => 'https://github.com/FounderHQ/founderhq-journeys-ios.git', :tag => 'v0.2.0'
+pod 'FounderHQJourneys', :git => 'https://github.com/FounderHQ/founderhq-journeys-ios.git', :tag => 'v0.7.0'
 ```
 
 Both installation methods use the same Swift implementation. Requires iOS 15 or later.
