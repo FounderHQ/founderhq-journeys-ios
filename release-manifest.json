@@ -1,21 +1,21 @@
 {
   "repository": "FounderHQ/founderhq-journeys-ios",
-  "version": "0.1.1",
-  "sourceCommit": "94fa9f41c5f6c54377df795ce51daf6f71796178",
+  "version": "0.2.0",
+  "sourceCommit": "f287ebab766ccd6c4c54d7eed22426a109a3800d",
   "files": {
     ".github/workflows/release.yml": "af3b237768b25d18238a398f59635dfc4a6554fb2f5b515e044201393138f3e2",
     ".gitignore": "14381eea8ee07ee2479db564fb75f9814f9a510041eb1eac35da5bd01adfc3c8",
-    "FounderHQJourneys.podspec": "4a79636417cf6a54a3298a729adc35d1eb7a0481016a956c13432accb174c77d",
+    "FounderHQJourneys.podspec": "39764c60d247cabc66434ae83f31488fbea20cd566d97cf90a0820bac1e90c4a",
     "LICENSE": "11266b70b5ea51167849f8ff2fc81558da90acb971a670e5ee7787d8151c9ff0",
     "Package.swift": "0a495f7454109c046420c62ad2dbc02835b8b5ca4a0d07ab7dd9036f70400a77",
-    "README.md": "7c5331b94ed00d266b1f086bea6ebb0f9ecb1442dd7dc54404d11b8f6c6fbe01",
-    "Sources/FounderHQJourneys/JSONValue.swift": "1d2b13e56e8d3de2ddf8a0f21ddc0c049f60d7031a6a29bdc4ea0b32daa5569e",
-    "Sources/FounderHQJourneys/JourneyAPIClient.swift": "56f3340e6af9e10b6e4924a9a0fee82010f5f9f0d7fe54581bc0eb64f98bc859",
-    "Sources/FounderHQJourneys/JourneyBridge.swift": "0ff6d991d72ca0b63fb96e59553956b545dbb292fbaaf887f3564ad24a967853",
-    "Sources/FounderHQJourneys/JourneyConfiguration.swift": "8c1c9c9689495b61426c212e6bd805029a1e16573d241400d7035fd2df0feca4",
+    "README.md": "ca4397612de83527b17036236cd97c70c40cfb33d47f88c80b953e1d912386d5",
+    "Sources/FounderHQJourneys/JSONValue.swift": "d0c4f68691e21fba3ece48e974b4e29a97cfdc0cdb4f9e2786cc7f122766f7bd",
+    "Sources/FounderHQJourneys/JourneyAPIClient.swift": "2543b2edf1f7a2fa55d43de9e7f7fac7d0efd16dfc849b0b420f082f97fbe78e",
+    "Sources/FounderHQJourneys/JourneyBridge.swift": "0cc129e045cdc0d128b7b2badb2ad899dca1ada6e392c5856ec0d998df6a4271",
+    "Sources/FounderHQJourneys/JourneyConfiguration.swift": "0d303ed190447137ea0ddd415365002677de50b377d83a36860093366d101a69",
     "Sources/FounderHQJourneys/JourneyController.swift": "012d613f36478461a3acdcc3fe702c03d79a0fb02503c5cce5972654fed60281",
-    "Sources/FounderHQJourneys/JourneyModels.swift": "41161a5c8f71ab05fd713e482cac1d957c5b0f54b1cd314efa426847ce67dad2",
-    "Sources/FounderHQJourneys/JourneyView.swift": "f699c15a338bf1a500ecd8de629a2141b0aa7781d3660edf2b2b680b9f949a27",
-    "Tests/FounderHQJourneysTests/FounderHQJourneysTests.swift": "5dc7447e5c04152064fb085bb8dc419c48cbb327be4648162e071bb24522702f"
+    "Sources/FounderHQJourneys/JourneyModels.swift": "4302fa644e81703896819b290e72db2b2214d1273834012ca21dbd97c35ef2fd",
+    "Sources/FounderHQJourneys/JourneyView.swift": "6ce9b9aeda315607072836d058c19299cd549ad83c3a77e2e905b3d29a542e06",
+    "Tests/FounderHQJourneysTests/FounderHQJourneysTests.swift": "596738857ad15e5734b859b8b54602aa7843e0fb30869b906102f877b9f11d1c"
   }
 }

@@ -61,6 +61,11 @@ public enum JSONValue: Codable, Equatable, Sendable {
         guard case let .bool(value) = self else { return nil }
         return value
     }
+
+    public var arrayValue: [JSONValue]? {
+        guard case let .array(value) = self else { return nil }
+        return value
+    }
 }
 
 extension Dictionary where Key == String, Value == JSONValue {

@@ -198,12 +198,43 @@ public enum JourneyError: LocalizedError, Equatable {
     case unavailable(String)
     case invalidResponse(String)
     case renderer(String)
+    case authorizationDenied
 
     public var errorDescription: String? {
         switch self {
         case let .invalidURL(message), let .unavailable(message),
              let .invalidResponse(message), let .renderer(message):
             return message
+        case .authorizationDenied:
+            return "This Journey is unavailable"
         }
     }
+}
+
+public struct JourneyHTTPError: LocalizedError, Equatable, Sendable {
+    public let statusCode: Int
+    public let retryAfter: Date?
+    public let message: String
+
+    public init(statusCode: Int, retryAfter: Date? = nil, message: String) {
+        self.statusCode = statusCode
+        self.retryAfter = retryAfter
+        self.message = message
+    }
+
+    public var errorDescription: String? { message }
+
+    public var isDefinitiveAuthorizationDenial: Bool {
+        statusCode == 401 || statusCode == 403 || statusCode == 404
+    }
+
+    func retryAfterMilliseconds(at date: Date) -> Int? {
+        guard statusCode == 429, let retryAfter else { return nil }
+        return Int(max(0, retryAfter.timeIntervalSince(date) * 1_000).rounded(.up))
+    }
+}
+
+func isDefinitiveJourneyAuthorizationDenial(_ error: Error) -> Bool {
+    if case JourneyError.authorizationDenied = error { return true }
+    return (error as? JourneyHTTPError)?.isDefinitiveAuthorizationDenial == true
 }

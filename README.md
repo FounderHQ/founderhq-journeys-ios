@@ -6,18 +6,18 @@ In Xcode, choose **File → Add Package Dependencies** and enter:
 
 `https://github.com/FounderHQ/founderhq-journeys-ios`
 
-Select version **0.1.1** or later. Swift Package Manager is the recommended installation method.
+Select version **0.2.0** or later. Swift Package Manager is the recommended installation method.
 
 For CocoaPods:
 
 ```ruby
-pod 'FounderHQJourneys', '~> 0.1.1'
+pod 'FounderHQJourneys', '~> 0.2.0'
 ```
 
 For installation directly from the release tag:
 
 ```ruby
-pod 'FounderHQJourneys', :git => 'https://github.com/FounderHQ/founderhq-journeys-ios.git', :tag => 'v0.1.1'
+pod 'FounderHQJourneys', :git => 'https://github.com/FounderHQ/founderhq-journeys-ios.git', :tag => 'v0.2.0'
 ```
 
 Both installation methods use the same Swift implementation. Requires iOS 15 or later.
@@ -55,9 +55,38 @@ UIKit consumers can present `JourneyViewController`. `JourneyController`
 provides `goNext`, `goBack`, `goToStep`, `setAnswer`, `flushCapture`, and
 `reload` commands.
 
+For instant presentation, keep one `JourneyHost` for each place that can show a
+Journey and prepare it while the preceding screen is visible:
+
+```swift
+@State private var showJourney = false
+@StateObject private var host = JourneyHost(configuration: .init(
+    apiKey: "fhq_pk_...",
+    journeyID: "journey_id",
+    identity: JourneyIdentity(externalID: "customer_id")
+))
+
+var body: some View {
+    Button("Start") { showJourney = true }
+        .task { try? await host.prepare() }
+        .fullScreenCover(isPresented: $showJourney) {
+            JourneyView(host: host)
+        }
+}
+```
+
+`prepare()` loads the published configuration and renderer in parallel. A
+prepared renderer stays hidden and emits no presentation analytics until
+`present()` makes it visible. `JourneyView(host:)` calls `present()` when it
+appears and `dismiss()` when it leaves. Call `updateConfiguration(_:)` after
+identity or Journey changes, and `dispose()` when the owning flow is finished.
+One host owns one renderer for its lifetime; do not share a host between two
+simultaneously visible surfaces.
+
 The SDK includes first-paint loading, app lifecycle capture flushing, native
 haptics, typed events and discounts, external/deep-link handling, local test
-configs, dynamic capture context, and custom capture transports.
+configs and custom capture transports. Capture request bodies are forwarded
+unchanged so the renderer and server retain the same event payload.
 `JourneyController` publishes `canGoBack`, `currentStepID`, and
 `currentStepIndex`. SwiftUI and UIKit entry points accept custom loading and
 error views.
