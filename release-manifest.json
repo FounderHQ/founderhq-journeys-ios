@@ -1,21 +1,21 @@
 {
   "repository": "FounderHQ/founderhq-journeys-ios",
-  "version": "0.7.0",
-  "sourceCommit": "58cd31949514f992988d7760b6b0053b3b42d379",
+  "version": "0.8.0",
+  "sourceCommit": "5fa498bd63580b4d2bb111f31d0ab93e503f40e8",
   "files": {
     ".github/workflows/release.yml": "af3b237768b25d18238a398f59635dfc4a6554fb2f5b515e044201393138f3e2",
     ".gitignore": "14381eea8ee07ee2479db564fb75f9814f9a510041eb1eac35da5bd01adfc3c8",
-    "FounderHQJourneys.podspec": "5d1c7e8382032237d3a5b37ec7031bc7e7c162d063cd7fc4a65ea6e597e51c86",
+    "FounderHQJourneys.podspec": "bda7874df457aabf0d8b5df56ccad16791f74e1a8b6001bbe2ec9893a8035a02",
     "LICENSE": "11266b70b5ea51167849f8ff2fc81558da90acb971a670e5ee7787d8151c9ff0",
     "Package.swift": "0a495f7454109c046420c62ad2dbc02835b8b5ca4a0d07ab7dd9036f70400a77",
-    "README.md": "5d7abee755375ea186930ed012a41fbb27602cd9ec8f3ed653b853045e5b7da5",
+    "README.md": "62a9032f64967aba7513424f9ad4665b9a9a3e03bf4ea491f6dd7469f174fcdf",
     "Sources/FounderHQJourneys/JSONValue.swift": "d0c4f68691e21fba3ece48e974b4e29a97cfdc0cdb4f9e2786cc7f122766f7bd",
     "Sources/FounderHQJourneys/JourneyAPIClient.swift": "2543b2edf1f7a2fa55d43de9e7f7fac7d0efd16dfc849b0b420f082f97fbe78e",
-    "Sources/FounderHQJourneys/JourneyBridge.swift": "e6632eaf5caeada57240e28e8dc5255262164333127a572d0904ca7eb52c7f18",
+    "Sources/FounderHQJourneys/JourneyBridge.swift": "e91bad5b152543a7c2e730e5e8c6a75561e5af644fc55aa35bcfad8af226cccd",
     "Sources/FounderHQJourneys/JourneyConfiguration.swift": "0d303ed190447137ea0ddd415365002677de50b377d83a36860093366d101a69",
     "Sources/FounderHQJourneys/JourneyController.swift": "012d613f36478461a3acdcc3fe702c03d79a0fb02503c5cce5972654fed60281",
     "Sources/FounderHQJourneys/JourneyModels.swift": "4302fa644e81703896819b290e72db2b2214d1273834012ca21dbd97c35ef2fd",
     "Sources/FounderHQJourneys/JourneyView.swift": "11981f3cb4e0ac84a892a1d0318a0697e9336a413f75c2e416a4f938528becb5",
-    "Tests/FounderHQJourneysTests/FounderHQJourneysTests.swift": "596738857ad15e5734b859b8b54602aa7843e0fb30869b906102f877b9f11d1c"
+    "Tests/FounderHQJourneysTests/FounderHQJourneysTests.swift": "37d16c498a789dc3824542851c9549e42bbb3087697d1253682daf9aa2c93fc7"
   }
 }

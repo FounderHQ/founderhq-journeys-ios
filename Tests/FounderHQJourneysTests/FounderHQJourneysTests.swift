@@ -19,6 +19,16 @@ final class FounderHQJourneysTests: XCTestCase {
         XCTAssertNil(JourneyBridge.decode(String(decoding: data, as: UTF8.self)))
     }
 
+    func testProductionAPIAndRendererUseAppHost() throws {
+        var configuration = JourneyConfiguration(apiKey: "fhq_pk_test", journeyID: "journey")
+        XCTAssertEqual(try configuration.validatedBaseURL().absoluteString, "https://app.getfounderhq.com")
+        XCTAssertEqual(try configuration.resolvedRendererURL().absoluteString, "https://app.getfounderhq.com/embed/journeys/native")
+        configuration.baseURL = URL(string: "http://10.0.2.2:3000")!
+        XCTAssertEqual(try configuration.resolvedRendererURL().absoluteString, "http://10.0.2.2:3000/embed/journeys/native")
+        configuration.rendererURL = URL(string: "https://renderer.example.com/custom")!
+        XCTAssertEqual(try configuration.resolvedRendererURL().absoluteString, "https://renderer.example.com/custom")
+    }
+
     func testBaseURLSecurity() throws {
         let secure = JourneyConfiguration(
             apiKey: "fhq_pk_test",

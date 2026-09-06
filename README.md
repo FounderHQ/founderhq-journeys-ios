@@ -6,18 +6,18 @@ In Xcode, choose **File → Add Package Dependencies** and enter:
 
 `https://github.com/FounderHQ/founderhq-journeys-ios`
 
-Select version **0.7.0** or later. Swift Package Manager is the recommended installation method.
+Select version **0.8.0** or later. Swift Package Manager is the recommended installation method.
 
 For CocoaPods:
 
 ```ruby
-pod 'FounderHQJourneys', '~> 0.7.0'
+pod 'FounderHQJourneys', '~> 0.8.0'
 ```
 
 For installation directly from the release tag:
 
 ```ruby
-pod 'FounderHQJourneys', :git => 'https://github.com/FounderHQ/founderhq-journeys-ios.git', :tag => 'v0.7.0'
+pod 'FounderHQJourneys', :git => 'https://github.com/FounderHQ/founderhq-journeys-ios.git', :tag => 'v0.8.0'
 ```
 
 Both installation methods use the same Swift implementation. Requires iOS 15 or later.
@@ -101,3 +101,16 @@ such as a Close button should remain in the host's safe area.
 
 The host app controls status-bar and home-indicator visibility. The SDK does
 not draw an imitation home indicator or force system overlays to hide.
+
+## Release notes
+
+### 0.8.0
+
+- Journey API requests and renderer pages use `https://app.getfounderhq.com`. The analytics ingest host is reserved for Events.
+
+### API and renderer hosts
+
+Production API requests use `https://app.getfounderhq.com`. The native WebView
+loads `https://app.getfounderhq.com/embed/journeys/native`, where the renderer
+and its assets are hosted. Custom/local API origins retain a renderer on that
+origin by default; an explicit renderer URL overrides it.
